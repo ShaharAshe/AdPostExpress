@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       }
     },
     price: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.INTEGER,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         isAlpha: true,

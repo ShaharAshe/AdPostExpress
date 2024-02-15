@@ -12,8 +12,8 @@ module.exports = (sequelize) => {
     class Order extends Model {
         static associate(models) {
         // define association here
-        Order.belongsTo(models.Contact, {
-            foreignKey: 'contact_id'
+        Order.belongsTo(models.Post, {
+            foreignKey: 'post_id'
         });
         }
     }

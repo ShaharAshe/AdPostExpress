@@ -3,7 +3,7 @@
 const { DataTypes, Model } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Contact extends Model {
+  class Post extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,18 +11,31 @@ module.exports = (sequelize) => {
      */
     static associate(models) {
       // relations can be defined here, for example:
-      Contact.hasMany(models.Order, {
-        foreignKey: 'contact_id'
+      Post.hasMany(models.Order, {
+        foreignKey: 'post_id'
       })
     }
   }
-  Contact.init({
-    firstName: DataTypes.STRING,
-    lastName: {
+  Post.init({
+    title: {
       type: DataTypes.STRING,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
-            isAlpha: true,
+        isAlpha: true,
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false, // constraint level validation (SQL level validation)
+      validate: { // sequelize level validation
+        isAlpha: true,
+      }
+    },
+    price: {
+      type: DataTypes.TINYINT,
+      allowNull: false, // constraint level validation (SQL level validation)
+      validate: { // sequelize level validation
+        isAlpha: true,
       }
     },
     phone: {
@@ -36,10 +49,14 @@ module.exports = (sequelize) => {
       validate: { // sequelize level validation
         isEmail: true
       }},
-    timePlaced: { type: DataTypes.TIME, defaultValue: DataTypes.NOW }
-  }, {
+    timePlaced: {
+      type: DataTypes.TIME,
+      defaultValue: DataTypes.NOW
+    }
+  },
+  {
     sequelize, // We need to pass the connection instance
-    modelName: 'Contact',
+    modelName: 'Post',
   });
-  return Contact;
+  return Post;
 };

@@ -26,12 +26,27 @@ app.use('/api', usersRouter);
 
 const db = require('./models/index');
 // create the tables if don't exist
-db.sequelize.sync().then(() => {
-  console.log('Database Synced');
+
+db.sequelize.sync()
+    .then(() => {
+        console.log('Database Synced');
+        return Promise.all([
+            db.User.findOrCreate({
+                where: {login: 'admin'},
+                defaults: {login: 'admin', password: 'admin'}
+            }),
+            db.User.findOrCreate({
+                where: {login: 'admin2'},
+                defaults: {login: 'admin2', password: 'admin2'}
+            })
+        ]);
+}).then(() => {
+    console.log('Admin user created');
 }).catch((err) => {
-  console.log('Error syncing database');
-  console.log(err);
+    console.log('Error syncing database or creating admin users');
+    console.log(err);
 });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

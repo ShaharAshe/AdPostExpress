@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api');
 var formRoute = require('./routes/formHandle');
+var loginRoute = require('./routes/loginHandle');
 
 var app = express();
 
@@ -19,10 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/action', formRoute);
 app.use('/api', usersRouter);
+app.use('/login', loginRoute);
 
 const db = require('./models/index');
 // create the tables if don't exist

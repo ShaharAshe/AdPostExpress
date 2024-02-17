@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api');
 var formRoute = require('./routes/formHandle');
 var loginRoute = require('./routes/loginHandle');
+var newPostRoute = require('./routes/newPost');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use('/', indexRouter);
 app.use('/action', formRoute);
 app.use('/api', usersRouter);
 app.use('/login', loginRoute);
+app.use('/newPost', newPostRoute);
 
 const db = require('./models/index');
 // create the tables if don't exist

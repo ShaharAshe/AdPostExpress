@@ -41,16 +41,31 @@
         <div class="col-4 d-none d-md-block"></div>
 
         <div class="col-12 col-lg-4">
-            <form class="row g-3" method="post" action="/">
-                <div class="col-12 col-md-6">
-                    <label for="User-Name" class="form-label">User name</label>
-                    <input type="text" class="form-control" id="User-Name">
+            <h2 class="text-center"><%= title %></h2>
+            <form class="row g-3" method="post" action="/action/add">
+                <div class="col-12">
+                    <label for="title" class="form-label">title</label>
+                    <input type="text" class="form-control" id="title" name="title">
                 </div>
-                <div class="col-12 col-md-6">
-                    <label for="Password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="Password">
+                <div class="col-12">
+                    <label for="description" class="form-label">description</label>
+                    <textarea class="form-control" aria-label="description" id="description" name="description"></textarea>
                 </div>
-                <div class="bad-val-fu alert alert-danger d-none"></div>
+                <div class="col-12">
+                    <label for="price" class="form-label">price</label>
+                    <input type="number" class="form-control" id="price" name="price" min="0">
+                </div>
+                <div class="col-12">
+                    <label for="phone_number" class="form-label">phone number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number">
+                </div>
+                <div class="col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><label for="email" class="form-label">@</label></span>
+                        <input type="text" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend">
+                    </div>
+                </div>
                 <div class="col-12 text-center">
                     <button class="btn btn-primary" type="submit">submit</button>
                 </div>
@@ -58,6 +73,8 @@
         </div>
 
         <div class="col-4 d-none d-md-block"></div>
+    </div>
+    <br>
     </div>
 
 

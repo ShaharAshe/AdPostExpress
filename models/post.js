@@ -35,19 +35,22 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
-        isAlpha: true,
+        isNumeric: true,
       }
     },
     phone: {
       type: DataTypes.STRING,
+      allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         isNumeric: true,
       }},
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
-        isEmail: true
+        isEmail: true,
+        unique: true,
       }},
     timePlaced: {
       type: DataTypes.TIME,

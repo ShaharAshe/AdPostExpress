@@ -46,11 +46,9 @@ module.exports = (sequelize) => {
       }},
     email: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         isEmail: true,
-        unique: true,
       }},
     timePlaced: {
       type: DataTypes.TIME,

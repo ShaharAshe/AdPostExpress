@@ -1,4 +1,11 @@
 <%- include('include/header.ejs') %>
+<% if(! firstVisit) {%>
+<div class="row">
+    <div class="col">
+        <p>welcome back <b><%= email %></b>, your previous ad was posted on <b><%= date %></b></p>
+    </div>
+</div>
+<% }%>
     <!-- form -->
     <div class="row">
         <div class="col-4 d-none d-md-block"></div>

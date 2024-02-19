@@ -1,6 +1,5 @@
 const utilities = (function() {
     const field_name = ['Title', 'Description', 'Price', 'Phone Number', 'Email']
-    const az_pattern = /^[a-z]+\s*$/;
     const email_pattern = /\S+@\S+\..+/;
     const phone_number_pattern = /^[0-9]{2,3}-[0-9]{7}$/;
 
@@ -40,13 +39,7 @@ const funcs = (function (){
 // ======================================================================
 
 const main = (function () {
-    const click_submit = ()=> {
-        // form_action_ev: form_action_ev,
-        //     title_ev: title_ev,
-        //     description_ev: description_ev,
-        //     price_ev: price_ev,
-        //     phone_number_ev: phone_number_ev,
-        //     email_ev: email_ev,
+    const click_submit = (event)=> {
         let is_valid = true;
         let name_of_field = 0;
         utilities.good_alert.forEach(good => {
@@ -75,15 +68,24 @@ const main = (function () {
         }
 
         utilities.bad_alert.forEach(bad => {
-            if (bad.innerHTML !== ``)
+            if (bad.innerHTML !== ``) {
                 bad.classList.remove('d-none')
+                is_valid = false;
+            }
         })
+
+        if (is_valid) {
+            document.cookie = 'LastVisit' + '=' + new Date().toISOString() + ';';
+            document.cookie = 'EmailAdr' + '=' + utilities.email_ev.value.trim()+';';
+            event.target.submit();
+        }
+
     }
     return {
         main_func: function () {
             utilities.form_action_ev.addEventListener("submit", function (event) {
                 event.preventDefault();
-                click_submit()
+                click_submit(event)
             })
         },
     }

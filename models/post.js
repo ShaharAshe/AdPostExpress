@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
-        isNumeric: true,
+        is: /^[0-9]{2,3}-[0-9]{7}$/,
       }},
     email: {
       type: DataTypes.STRING,
@@ -53,6 +53,10 @@ module.exports = (sequelize) => {
       validate: { // sequelize level validation
         isEmail: true,
       }},
+    approve:{
+      type: DataTypes.STRING,
+      defaultValue: 'no',
+    },
     timePlaced: {
       type: DataTypes.TIME,
       defaultValue: DataTypes.NOW

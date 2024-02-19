@@ -19,8 +19,9 @@ module.exports = (sequelize) => {
   Post.init({
     title: {
       type: DataTypes.STRING,
-      allowNull: false, // constraint level validation (SQL level validation)
+      allowNull: true, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
+        max: 20,
         isAlpha: true,
       }
     },
@@ -28,6 +29,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
+        max: 200,
         isAlpha: true,
       }
     },
@@ -35,12 +37,13 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
+        min: 0,
         isNumeric: true,
       }
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false, // constraint level validation (SQL level validation)
+      allowNull: true, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         isNumeric: true,
       }},

@@ -74,12 +74,8 @@ const main = (function () {
             }
         })
 
-        if (is_valid) {
-            document.cookie = 'LastVisit' + '=' + new Date().toISOString() + ';';
-            document.cookie = 'EmailAdr' + '=' + utilities.email_ev.value.trim()+';';
+        if (is_valid)
             event.target.submit();
-        }
-
     }
     return {
         main_func: function () {

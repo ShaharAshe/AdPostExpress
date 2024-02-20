@@ -54,15 +54,7 @@ module.exports = (sequelize) => {
     sequelize, // We need to pass the connection instance
     modelName: 'Post',
     hooks: {
-      beforeCreate: (user) => {
-        if (user && user.where && user.where.approve === 'yes') {
-          if(!user.context.login)
-          {
-            // User not logged in, prevent access to approved posts
-            user.where.approve = 'no';
-          }
-        }
-        // else{}
+      beforeFind: (option) => {
       }
     }
 

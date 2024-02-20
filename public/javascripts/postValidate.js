@@ -79,6 +79,21 @@ const main = (function () {
     }
     return {
         main_func: function () {
+            fetch(`/api/allData`)
+                .then((status)=> {
+                    if (status.status >= 200 && status.status < 300) {
+                        return Promise.resolve(status)
+                    } else {
+                        return Promise.reject(new Error(status.statusText))
+                    }
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json)
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             utilities.form_action_ev.addEventListener("submit", function (event) {
                 event.preventDefault();
                 click_submit(event)

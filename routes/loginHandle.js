@@ -13,12 +13,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/', (req, res) => {
     const {login, password} = req.body;
-    try{
     db.User.findOne({
         where: {login: login, password: password},
     }).then(user => {
         if (user) {
             req.session.login = true;
+            req.session.userName = login;
+            req.session.userPassword = password;
             res.render('admin', {title: 'Admin'});
         }
         else{
@@ -35,10 +36,6 @@ router.post('/', (req, res) => {
             res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
         }
     })
-    }
-    catch (e){
-        console.log(e)
-    }
 });
 
 module.exports = router;

@@ -1,38 +1,44 @@
 var express = require('express');
 const Cookies = require("cookies");
-const db = require("../models");
+const db = require('../models');
 const Sequelize = require("sequelize");
 var router = express.Router();
+// const bcrypt = require('bcrypt');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Second Hand' });
 });
 
-// router.post('/', (req, res) => {
-//     const keys = ['keyboard cat']
-//     const cookies = new Cookies(req, res, { keys: keys })
-//
-//     const {title, description, price, phone_number, email} = req.body; // req.body.firstName, req.body.lastName, req.body.phone
-//     let u = db.Post.build({title: title, description: description, price: price, phone: phone_number, email: email});
-//
-//     return u.save()
-//         .then((post) => {
-//             cookies.set('LastVisit', new Date().toISOString(), { signed: true, maxAge: 10*1000 });
-//             cookies.set('EmailAdr', email, { signed: true, maxAge: 10*1000 });
-//
-//             res.render('successfulPost', {title: 'Successful post', message: "The contact was added successfully!"})
-//         })
-//         .catch((err) => {
-//             // extensive error handling can be done here - you don't always need such a detailed error handling
-//             if (err instanceof Sequelize.ValidationError) {
-//                 res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-//             } else if (err instanceof Sequelize.DatabaseError) {
-//                 res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-//             } else {
-//                 res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err}`});
-//             }
-//         })
-// });
+router.post('/', (req, res) => {
+    const {login, password} = req.body;
+    try{
+    db.User.findOne({
+        where: {login: login, password: password},
+    }).then(user => {
+        if (user) {
+            req.session.login = true;
+            res.render('admin', {title: 'Admin'});
+        }
+        else{
+            req.session.login = false;
+            res.render('login', {title: 'Login', message: 'Admin not found', err: true});
+        }
+    }).catch((err) => {
+        // extensive error handling can be done here - you don't always need such a detailed error handling
+        if (err instanceof Sequelize.ValidationError) {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+        } else if (err instanceof Sequelize.DatabaseError) {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+        } else {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+        }
+    })
+    }
+    catch (e){
+        console.log(e)
+    }
+});
 
 module.exports = router;

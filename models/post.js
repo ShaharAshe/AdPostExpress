@@ -3,19 +3,7 @@
 const { DataTypes, Model } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Post extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // relations can be defined here, for example:
-      Post.hasMany(models.Order, {
-        foreignKey: 'post_id'
-      })
-    }
-  }
+  class Post extends Model {}
   Post.init({
     title: {
       type: DataTypes.STRING,
@@ -65,6 +53,19 @@ module.exports = (sequelize) => {
   {
     sequelize, // We need to pass the connection instance
     modelName: 'Post',
+    hooks: {
+      beforeCreate: (user) => {
+        if (user && user.where && user.where.approve === 'yes') {
+          if(!user.context.login)
+          {
+            // User not logged in, prevent access to approved posts
+            user.where.approve = 'no';
+          }
+        }
+        // else{}
+      }
+    }
+
   });
   return Post;
 };

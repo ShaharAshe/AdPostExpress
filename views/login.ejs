@@ -1,16 +1,21 @@
 <%- include('include/header.ejs') %>
     <!-- form -->
+<%if(err){%>
+<div class="row">
+    <div class="col-12"><p><%=message%></p></div>
+</div>
+<%}%>
     <div class="row">
         <div class="col-4 d-none d-md-block"></div>
         <div class="col-12 col-lg-4">
             <form class="row g-3" method="post" action="/login">
                 <div class="col-12 col-md-6">
                     <label for="User-Name" class="form-label">User name</label>
-                    <input type="text" class="form-control" id="User-Name">
+                    <input type="text" class="form-control" id="User-Name" name="login">
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="Password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="Password">
+                    <input type="password" class="form-control" id="Password" name="password">
                 </div>
                 <div class="bad-val-fu alert alert-danger d-none"></div>
                 <div class="col-12 text-center">

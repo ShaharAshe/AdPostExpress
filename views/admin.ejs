@@ -1,6 +1,13 @@
 <%- include('include/header.ejs') %>
-<div class="row"><div class="col-12 text-center"><p>Admin panel</p></div></div>
-<hr>
+<div class="row">
+    <div class="col-4"><p>Admin panel 🛠️</p></div>
+    <div class="col-4">
+        <div class="spinner-border position-absolute top-50 start-50 end-50 bottom-50" role="status" style="font-size: 50px; width: 10rem; height: 10rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+<div class="col-4 text-center"><a class="btn btn-success mx-2" href="/logout">LogOut</a></div>
+</div>
 <!-- form -->
 <div class="row posts_place"></div>
 <div class="toast-container position-fixed bottom-0 end-0 p-3">

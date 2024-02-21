@@ -1,6 +1,8 @@
 const utilities = (function() {
     const posts_place = document.querySelector(".posts_place");
+    const spinner = document.querySelector("div.spinner-border");
     return {
+        spinner: spinner,
         posts_place:posts_place,
     };
 })()
@@ -29,9 +31,15 @@ const main = (function () {
             .then((json) => {
                 console.log(json)
                 utilities.posts_place.innerHTML = ``
-                json.forEach(post => {
-                    utilities.posts_place.innerHTML +=
-                        `<div class="col-12 col-sm-6 col-lg-4 text-center">
+                if (json.length === 0) {
+                    utilities.posts_place.innerHTML =
+                        `<div class="col-12 text-center">
+                            <h2>There are no posts yet &#129488;</h2>
+                        </div>`
+                } else {
+                    json.forEach(post => {
+                        utilities.posts_place.innerHTML +=
+                            `<div class="col-12 col-sm-6 col-lg-4 text-center">
                             <div class="card">
                                 <p class="card-text">${post["title"]}</p>
                                 <img src="/images/post_icon.png" class="card-img-top img-fluid d-none d-sm-block" alt="mars image">
@@ -44,9 +52,15 @@ const main = (function () {
                                     </div>
                                 </div>
                             </div>`
-                })
+                    })
+                }
+                utilities.spinner.classList.add("d-none");
             })
             .catch((error) => {
+                utilities.posts_place.innerHTML =
+                `<div class="col-12 text-center">
+                            <h2>ERROR loading data from server</h2>
+                        </div>`
                 console.log(error);
             });
     }

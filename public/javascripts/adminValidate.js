@@ -3,11 +3,13 @@ const utilities = (function() {
     const delete_toastLive = document.getElementById('delLiveToast');
     const approve_toastLive = document.getElementById('approveLiveToast');
     const unApproved_toastLive = document.getElementById('unApprovedLiveToast');
+    const spinner = document.querySelector("div.spinner-border");
     return {
         posts_place:posts_place,
         delete_toastLive: delete_toastLive,
         approve_toastLive: approve_toastLive,
         unApproved_toastLive: unApproved_toastLive,
+        spinner: spinner,
     };
 })()
 
@@ -35,9 +37,15 @@ const main = (function () {
             .then((json) => {
                 console.log(json)
                 utilities.posts_place.innerHTML = ``
-                json.forEach(post => {
-                    utilities.posts_place.innerHTML +=
-                        `<div class="col-12 col-sm-6 col-lg-4 text-center">
+                if (json.length === 0) {
+                    utilities.posts_place.innerHTML =
+                        `<div class="col-12 text-center">
+                            <h2>There are no posts yet &#129488;</h2>
+                        </div>`
+                } else {
+                    json.forEach(post => {
+                        utilities.posts_place.innerHTML +=
+                            `<div class="col-12 col-sm-6 col-lg-4 text-center">
                             <div class="card">
                                 <p class="card-text">${post["title"]}</p>
                                 <img src="/images/post_icon.png" class="card-img-top img-fluid d-none d-sm-block" alt="mars image">
@@ -54,7 +62,11 @@ const main = (function () {
                                     </div>
                                 </div>
                             </div>`
-                })
+                    })
+                }
+                utilities.spinner.classList.add("d-none");
+                // Set up interval to call build_page every 5 seconds
+                setInterval(build_page, 5000);
             })
             .catch((error) => {
                 console.log(error);
@@ -89,9 +101,8 @@ const main = (function () {
             // Initial call to build_page
             build_page();
 
-            // Set up interval to call build_page every 5 seconds
-            setInterval(build_page, 5000);
             utilities.posts_place.addEventListener("click", function (event) {
+                utilities.spinner.classList.remove("d-none");
                 if (event.target.classList.contains("approve_data")) {
                     approve_change(event, 'yes', utilities.approve_toastLive);
                 }else if (event.target.classList.contains("unapprove_data")){

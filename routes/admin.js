@@ -7,7 +7,7 @@ var app = express();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    if (req.session.login) {
+    if (req.session.login !== undefined && req.session.login) {
         res.render('admin', { title: 'Login' });
     }
     else { // first time we access session.views

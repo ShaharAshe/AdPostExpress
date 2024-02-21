@@ -8,7 +8,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Second Hand' });
+    res.render('login', {title: 'Login', message: '', err: false});
 });
 
 router.post('/', (req, res) => {
@@ -18,8 +18,6 @@ router.post('/', (req, res) => {
     }).then(user => {
         if (user) {
             req.session.login = true;
-            req.session.userName = login;
-            req.session.userPassword = password;
             res.render('admin', {title: 'Admin'});
         }
         else{

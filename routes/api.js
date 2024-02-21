@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/allData', (req, res) => {
-
         db.Post.findAll().then(data => {
             if (req.session.login)
                 res.json(data);
@@ -65,7 +64,6 @@ router.put('/allData', (req, res) => {
             })
     }
 });
-
 
 router.delete('/allData', (req, res) => {
     if (req.session.login) {

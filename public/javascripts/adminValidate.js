@@ -1,7 +1,11 @@
 const utilities = (function() {
     const posts_place = document.querySelector(".posts_place");
+    const delete_toastLive = document.getElementById('delLiveToast');
+    const saved_toastLive = document.getElementById('saveLiveToast');
     return {
         posts_place:posts_place,
+        delete_toastLive: delete_toastLive,
+        saved_toastLive: saved_toastLive,
     };
 })()
 
@@ -15,7 +19,7 @@ const funcs = (function (){
 // ======================================================================
 
 const main = (function () {
-    const build_page = ()=>{
+    const build_page = ()=> {
         console.log('Build page function called');
         fetch(`/api/allData`)
             .then((status) => {
@@ -52,12 +56,19 @@ const main = (function () {
             .catch((error) => {
                 console.log(error);
             });
+
     }
     return {
         main_func: function () {
+            // Initial call to build_page
             build_page();
+
+            // Set up interval to call build_page every 5 seconds
+            setInterval(build_page, 5000);
             utilities.posts_place.addEventListener("click", function (event) {
                 if (event.target.classList.contains("approve_data")) {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.saved_toastLive)
+                    toastBootstrap.show()
                     fetch(`/api/allData`, {
                         method: 'PUT',
                         headers: {
@@ -78,6 +89,8 @@ const main = (function () {
                             // Handle errors
                         });
                 }else if (event.target.classList.contains("del_data")) {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.delete_toastLive)
+                    toastBootstrap.show()
                     fetch(`/api/allData`, {
                         method: 'DELETE',
                         headers: {
@@ -85,17 +98,18 @@ const main = (function () {
                         },
                         body: JSON.stringify({postId: event.target.value}) // Convert data to JSON format if needed
                     }).then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        if (response.status >= 200 && response.status < 300) {
+                            return Promise.resolve(response)
+                        } else {
+                            return Promise.reject(new Error(response.statusText))
                         }
-                        return response.json();
-                    }).then(data => {
-                        console.log('Success:', data);
+                    }).then((response) => response.json())
+                    .then((json) => {
+                        console.log(json)
                     }).catch(error => {
                         console.error('Error:', error);
                         // Handle errors
                     });
-                    build_page();
                 }
             })
         },

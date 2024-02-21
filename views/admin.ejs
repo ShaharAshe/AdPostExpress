@@ -2,7 +2,28 @@
 <div class="row"><div class="col-12 text-center"><p>Admin panel</p></div></div>
 <hr>
 <!-- form -->
-<div class="row posts_place">
+<div class="row posts_place"></div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="saveLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="/images/approve.png" class="rounded me-2" alt="saved mark" style="width: 20px; height: 20px">
+            <strong class="me-auto"></strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">The image has been successfully verified</div>
+    </div>
+</div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="delLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="/images/delete.png" class="rounded me-2" alt="delete mark" style="width: 20px; height: 20px">
+            <strong class="me-auto"></strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">delete image is in process</div>
+    </div>
 </div>
 <script src="/javascripts/adminValidate.js"></script>
 <%- include('include/footer.ejs') %>

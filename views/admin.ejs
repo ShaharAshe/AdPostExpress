@@ -4,14 +4,25 @@
 <!-- form -->
 <div class="row posts_place"></div>
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="saveLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="unApprovedLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="/images/unapprove.png" class="rounded me-2" alt="saved mark" style="width: 20px; height: 20px">
+            <strong class="me-auto"></strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">The image has been successfully unApproved</div>
+    </div>
+</div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="approveLiveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <img src="/images/approve.png" class="rounded me-2" alt="saved mark" style="width: 20px; height: 20px">
             <strong class="me-auto"></strong>
             <small>Just now</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">The image has been successfully verified</div>
+        <div class="toast-body">The image has been successfully approved</div>
     </div>
 </div>
 <div class="toast-container position-fixed bottom-0 end-0 p-3">

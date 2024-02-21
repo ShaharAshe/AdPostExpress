@@ -1,11 +1,13 @@
 const utilities = (function() {
     const posts_place = document.querySelector(".posts_place");
     const delete_toastLive = document.getElementById('delLiveToast');
-    const saved_toastLive = document.getElementById('saveLiveToast');
+    const approve_toastLive = document.getElementById('approveLiveToast');
+    const unApproved_toastLive = document.getElementById('unApprovedLiveToast');
     return {
         posts_place:posts_place,
         delete_toastLive: delete_toastLive,
-        saved_toastLive: saved_toastLive,
+        approve_toastLive: approve_toastLive,
+        unApproved_toastLive: unApproved_toastLive,
     };
 })()
 
@@ -46,8 +48,9 @@ const main = (function () {
                                         <p class="card-text">phone number: ${post["phone"]}</p>
                                         <p class="card-text">price: ${post["price"]}</p>
                                         <form class="row g-3" method="post" action="/">
-                                        <button type="button" class="btn btn-primary approve_data" value="${post["id"]}">approve</button>
-                                        <button type="button" class="btn btn-primary del_data" value="${post["id"]}">delete</button>
+                                        <button type="button" class="btn btn-primary approve_data" value="${post["id"]}">Approve</button>
+                                        <button type="button" class="btn btn-primary unapprove_data" value="${post["id"]}">Unapprove</button>
+                                        <button type="button" class="btn btn-danger del_data" value="${post["id"]}">Delete</button>
                                     </div>
                                 </div>
                             </div>`
@@ -56,7 +59,30 @@ const main = (function () {
             .catch((error) => {
                 console.log(error);
             });
+    }
 
+    const approve_change = (event, val, toast_ev) =>{
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev)
+        toastBootstrap.show()
+        fetch(`/api/allData`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type if sending JSON data
+            },
+            body: JSON.stringify({approve: val, postId: event.target.value}) // Convert data to JSON format if needed
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // You can change this based on the response format
+        }).then(data => {
+            console.log('Success:', data);
+            // Handle the response data as needed
+        })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+            });
     }
     return {
         main_func: function () {
@@ -67,28 +93,10 @@ const main = (function () {
             setInterval(build_page, 5000);
             utilities.posts_place.addEventListener("click", function (event) {
                 if (event.target.classList.contains("approve_data")) {
-                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.saved_toastLive)
-                    toastBootstrap.show()
-                    fetch(`/api/allData`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json', // Set the content type if sending JSON data
-                        },
-                        body: JSON.stringify({approve: "yes", postId: event.target.value}) // Convert data to JSON format if needed
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json(); // You can change this based on the response format
-                    }).then(data => {
-                        console.log('Success:', data);
-                    // Handle the response data as needed
-                    })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            // Handle errors
-                        });
-                }else if (event.target.classList.contains("del_data")) {
+                    approve_change(event, 'yes', utilities.approve_toastLive);
+                }else if (event.target.classList.contains("unapprove_data")){
+                    approve_change(event, 'no',utilities.unApproved_toastLive);
+                } else if (event.target.classList.contains("del_data")) {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.delete_toastLive)
                     toastBootstrap.show()
                     fetch(`/api/allData`, {

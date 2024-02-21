@@ -9,18 +9,22 @@ router.get('/', (req, res) => {
 });
 
 router.get('/allData', (req, res) => {
-    db.Post.findAll().then(data => {
-        res.json(data);
-    }).catch((err) => {
-        // extensive error handling can be done here - you don't always need such a detailed error handling
-        if (err instanceof Sequelize.ValidationError) {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-        } else if (err instanceof Sequelize.DatabaseError) {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-        } else {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
-        }
-    })
+
+        db.Post.findAll().then(data => {
+            if (req.session.login)
+                res.json(data);
+            else
+                res.json([]);
+        }).catch((err) => {
+            // extensive error handling can be done here - you don't always need such a detailed error handling
+            if (err instanceof Sequelize.ValidationError) {
+                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+            } else if (err instanceof Sequelize.DatabaseError) {
+                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+            } else {
+                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+            }
+        })
 });
 
 router.get('/posts', (req, res) => {
@@ -43,40 +47,44 @@ router.get('/posts', (req, res) => {
 });
 
 router.put('/allData', (req, res) => {
-    db.Post.update({"approve": req.body.approve}, {
-        where: {
-            id: req.body.postId,
-        }
-    })
-        .catch((err) => {
-        // extensive error handling can be done here - you don't always need such a detailed error handling
-        if (err instanceof Sequelize.ValidationError) {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-        } else if (err instanceof Sequelize.DatabaseError) {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-        } else {
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
-        }
-    })
+    if (req.session.login) {
+        db.Post.update({"approve": req.body.approve}, {
+            where: {
+                id: req.body.postId,
+            }
+        })
+            .catch((err) => {
+                // extensive error handling can be done here - you don't always need such a detailed error handling
+                if (err instanceof Sequelize.ValidationError) {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+                } else if (err instanceof Sequelize.DatabaseError) {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+                } else {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+                }
+            })
+    }
 });
 
 
 router.delete('/allData', (req, res) => {
-    db.Post.destroy({
-        where:{
-            id: req.body.postId,
-        }
-    })
-        .catch((err) => {
-            // extensive error handling can be done here - you don't always need such a detailed error handling
-            if (err instanceof Sequelize.ValidationError) {
-                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-            } else if (err instanceof Sequelize.DatabaseError) {
-                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-            } else {
-                res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+    if (req.session.login) {
+        db.Post.destroy({
+            where: {
+                id: req.body.postId,
             }
         })
+            .catch((err) => {
+                // extensive error handling can be done here - you don't always need such a detailed error handling
+                if (err instanceof Sequelize.ValidationError) {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+                } else if (err instanceof Sequelize.DatabaseError) {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+                } else {
+                    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+                }
+            })
+    }
 });
 
 

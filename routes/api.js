@@ -23,6 +23,25 @@ router.get('/allData', (req, res) => {
     })
 });
 
+router.get('/posts', (req, res) => {
+    db.Post.findAll({
+        where:{
+            approve: 'yes',
+        }
+    }).then(data => {
+        res.json(data);
+    }).catch((err) => {
+        // extensive error handling can be done here - you don't always need such a detailed error handling
+        if (err instanceof Sequelize.ValidationError) {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+        } else if (err instanceof Sequelize.DatabaseError) {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+        } else {
+            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+        }
+    })
+});
+
 router.put('/allData', (req, res) => {
     db.Post.update({"approve": req.body.approve}, {
         where: {

@@ -39,9 +39,9 @@ const main = (function () {
                     utilities.posts_place.innerHTML +=
                         `<div class="col-12 col-sm-6 col-lg-4 text-center">
                             <div class="card">
+                                <p class="card-text">${post["title"]}</p>
                                 <img src="/images/post_icon.png" class="card-img-top img-fluid d-none d-sm-block" alt="mars image">
                                     <div class="card-body">
-                                        <p class="card-text">${post["title"]}</p>
                                         <p class="card-text">${post["description"]}</p>
                                         <p class="card-text">approve: ${post["approve"]}</p>
                                         <p class="card-text">email: ${post["email"]}</p>

@@ -32,7 +32,7 @@ router.get('/posts', (req, res) => {
             approve: 'yes',
         }
     }).then(data => {
-        res.json(data);
+        res.json(data); // 403 code
     }).catch((err) => {
         // extensive error handling can be done here - you don't always need such a detailed error handling
         if (err instanceof Sequelize.ValidationError) {

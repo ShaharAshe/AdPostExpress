@@ -25,6 +25,7 @@ const funcs = (function (){
 const main = (function () {
     const build_page = ()=> {
         console.log('Build page function called');
+        utilities.posts_place.innerHTML = ''
         fetch(`/api/allData`)
             .then((status) => {
                 if (status.status >= 200 && status.status < 300) {
@@ -36,7 +37,6 @@ const main = (function () {
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
-                utilities.posts_place.innerHTML = ``
                 if (json.length === 0) {
                     utilities.posts_place.innerHTML =
                         `<div class="col-12 text-center">
@@ -65,15 +65,13 @@ const main = (function () {
                     })
                 }
                 utilities.spinner.classList.add("d-none");
-                // Set up interval to call build_page every 5 seconds
-                setInterval(build_page, 5000);
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    const approve_change = (event, val, toast_ev) =>{
+    const approve_change = (event, val, toast_ev) => {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev)
         toastBootstrap.show()
         fetch(`/api/allData`, {
@@ -89,7 +87,6 @@ const main = (function () {
             return response.json(); // You can change this based on the response format
         }).then(data => {
             console.log('Success:', data);
-            // Handle the response data as needed
         })
             .catch(error => {
                 console.error('Error:', error);

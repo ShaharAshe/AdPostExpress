@@ -9,8 +9,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
-        max: 20,
-        isAlpha: true,
+        max: 20
       }
     },
     description: {
@@ -18,7 +17,6 @@ module.exports = (sequelize) => {
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         max: 200,
-        isAlpha: true,
       }
     },
     price: {

@@ -26,7 +26,7 @@ const main = (function () {
     const build_page = ()=> {
         console.log('Build page function called');
         utilities.posts_place.innerHTML = ''
-        fetch(`/api/allData`)
+        return fetch(`/api/allData`)
             .then((status) => {
                 if (status.status >= 200 && status.status < 300) {
                     return Promise.resolve(status)
@@ -74,7 +74,7 @@ const main = (function () {
     const approve_change = (event, val, toast_ev) => {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev)
         toastBootstrap.show()
-        fetch(`/api/allData`, {
+        return fetch(`/api/allData`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json', // Set the content type if sending JSON data
@@ -86,6 +86,7 @@ const main = (function () {
             }
             return response.json(); // You can change this based on the response format
         }).then(data => {
+            build_page();
             console.log('Success:', data);
         })
             .catch(error => {
@@ -121,6 +122,7 @@ const main = (function () {
                         }
                     }).then((response) => response.json())
                     .then((json) => {
+                        build_page();
                         console.log(json)
                     }).catch(error => {
                         console.error('Error:', error);

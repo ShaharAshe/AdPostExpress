@@ -51,7 +51,7 @@ router.put('/allData', (req, res) => {
             where: {
                 id: req.body.postId,
             }
-        })
+        }).then(()=> res.json([]))
             .catch((err) => {
                 // extensive error handling can be done here - you don't always need such a detailed error handling
                 if (err instanceof Sequelize.ValidationError) {
@@ -72,6 +72,7 @@ router.delete('/allData', (req, res) => {
                 id: req.body.postId,
             }
         })
+            .then(() => res.json([]))
             .catch((err) => {
                 // extensive error handling can be done here - you don't always need such a detailed error handling
                 if (err instanceof Sequelize.ValidationError) {

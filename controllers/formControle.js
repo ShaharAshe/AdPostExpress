@@ -29,7 +29,3 @@ exports.formPostAddHandle = (req, res, next) => {
         })
         .catch(error_handle)
 };
-
-exports.formGetAddHandle = (req, res, next) => {
-    res.redirect('/'); // redirect to the home page
-}

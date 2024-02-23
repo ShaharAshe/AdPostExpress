@@ -5,6 +5,6 @@ const indexController = require('../controllers/indexConstrole');
 
 router.get('/', indexController.indexPageHandle);
 router.post('/add', formController.formPostAddHandle);
-router.get('/add', formController.formGetAddHandle);
+router.get('/add', indexController.indexPageHandle);
 
 module.exports = router;

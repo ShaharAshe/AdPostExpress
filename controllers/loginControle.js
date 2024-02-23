@@ -1,6 +1,15 @@
 const db = require("../models");
 const Sequelize = require("sequelize");
 
+const error_handle = (res, err) => {
+    // extensive error handling can be done here - you don't always need such a detailed error handling
+    if (err instanceof Sequelize.ValidationError)
+        res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
+    if (err instanceof Sequelize.DatabaseError)
+        res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
+    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
+}
+
 exports.loginPageHandle = (req, res, next) => {
     res.render('login', {title: 'Login', message: '', err: false});
 };
@@ -16,12 +25,5 @@ exports.loginPostHandle = (req, res, next) => {
         }
         req.session.login = false;
         res.render('login', {title: 'Login', message: 'Admin not found', err: true});
-    }).catch((err) => {
-        // extensive error handling can be done here - you don't always need such a detailed error handling
-        if (err instanceof Sequelize.ValidationError)
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-        if (err instanceof Sequelize.DatabaseError)
-            res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-        res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
-    })
+    }).catch(error_handle)
 }

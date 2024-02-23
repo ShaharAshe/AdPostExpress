@@ -4,13 +4,11 @@ const createError = require("http-errors");
 
 const error_handle = (res, err) => {
     // extensive error handling can be done here - you don't always need such a detailed error handling
-    if (err instanceof Sequelize.ValidationError) {
+    if (err instanceof Sequelize.ValidationError)
         res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Invalid input: ${err}`});
-    } else if (err instanceof Sequelize.DatabaseError) {
+    if (err instanceof Sequelize.DatabaseError)
         res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Database error: ${err}`});
-    } else {
-        res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
-    }
+    res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
 }
 
 exports.apiGetAllDataHandle = (req, res, next) => {

@@ -8,7 +8,6 @@ const keys = ['keyboard cat']
 /* GET home page. */
 router.get('/', function(req, res, next) {
     const cookies = new Cookies(req, res, { keys: keys })
-
     // Get the cookie
     const lastVisit = cookies.get('LastVisit')
     const EmailAdr = cookies.get('EmailAdr')

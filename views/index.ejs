@@ -1,20 +1,14 @@
 <%- include('include/header.ejs') %>
-    <!--br-->
-    <!-- show ads head -->
-<!--    <div class="row"><div class="col-12 text-center"><h2>approved ads</h2></div></div>-->
-    <!-- show the ads here -->
-    <div class="row text-center">
-      <div class="col-4 text-center"></div>
-      <div class="col-4 text-center">
-          <div class="spinner-border position-absolute top-50 start-50 end-50 bottom-50" role="status" style="font-size: 50px; width: 10rem; height: 10rem;">
-              <span class="visually-hidden">Loading...</span>
-          </div>
-      </div>
-      <div class="col-4 text-center"><a class="btn btn-success mx-2" href="/newPost">new add</a></div>
+<div class="row text-center">
+    <div class="col-4 text-center"></div>
+    <div class="col-4 text-center">
+        <div class="spinner-border position-absolute top-50 start-50 end-50 bottom-50" role="status" style="font-size: 50px; width: 10rem; height: 10rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
-<br>
-    <div class="row posts_place text-center"></div>
-<br>
-  </div>
+    <div class="col-4 text-center"><a class="btn btn-success mx-2" href="/newPost">new post</a></div>
+</div>
+<br><div class="row posts_place text-center"></div><br>
+</div>
 <script src="/javascripts/landingPage.js"></script>
 <%- include('include/footer.ejs') %>

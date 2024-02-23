@@ -2,18 +2,20 @@ var express = require('express');
 var router = express.Router();
 const db = require('../models');
 const Sequelize = require("sequelize");
+const createError = require("http-errors");
+
+var app = express();
+
 
 /* GET users listing. */
 router.get('/', (req, res) => {
     res.render('index', { title: 'Second Hand' });
 });
 
-router.get('/allData', (req, res) => {
+router.get('/allData', (req, res, next) => {
+    if (req.session.login) {
         db.Post.findAll().then(data => {
-            if (req.session.login)
-                res.json(data);
-            else
-                res.json([]);
+            res.json(data);
         }).catch((err) => {
             // extensive error handling can be done here - you don't always need such a detailed error handling
             if (err instanceof Sequelize.ValidationError) {
@@ -24,9 +26,12 @@ router.get('/allData', (req, res) => {
                 res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
             }
         })
+    } else
+        next(createError(401))
 });
 
-router.get('/posts', (req, res) => {
+
+router.get('/posts', (req, res, next) => {
     db.Post.findAll({
         where:{
             approve: 'yes',
@@ -45,13 +50,13 @@ router.get('/posts', (req, res) => {
     })
 });
 
-router.put('/allData', (req, res) => {
+router.put('/allData', (req, res, next) => {
     if (req.session.login) {
         db.Post.update({"approve": req.body.approve}, {
             where: {
                 id: req.body.postId,
             }
-        }).then(()=> res.json([]))
+        }).then(() => res.json([]))
             .catch((err) => {
                 // extensive error handling can be done here - you don't always need such a detailed error handling
                 if (err instanceof Sequelize.ValidationError) {
@@ -62,10 +67,11 @@ router.put('/allData', (req, res) => {
                     res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
                 }
             })
-    }
+    } else
+        next(createError(401))
 });
 
-router.delete('/allData', (req, res) => {
+router.delete('/allData', (req, res, next) => {
     if (req.session.login) {
         db.Post.destroy({
             where: {
@@ -83,7 +89,12 @@ router.delete('/allData', (req, res) => {
                     res.render('unsuccessfulPost', {title: 'Unsuccessful post', message: `Unexpected error: ${err} `});
                 }
             })
-    }
+    } else
+        next(createError(401))
+});
+
+app.use(function(req, res, next) {
+    next(createError(404));
 });
 
 

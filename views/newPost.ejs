@@ -6,52 +6,49 @@
     </div>
 </div>
 <% }%>
-    <!-- form -->
-    <div class="row">
-        <div class="col-4 d-none d-md-block"></div>
-
-        <div class="col-12 col-lg-4">
-            <h2 class="text-center"><%= title %></h2>
-            <form class="row g-3 form_action" method="post" action="/action/add">
-                <div class="col-12">
-                    <label for="title" class="form-label">title</label>
-                    <input type="text" class="form-control" id="title" name="title" maxlength="20">
-                    <div class="alert alert-success d-none">Looks good!</div>
-                    <div class="alert alert-danger d-none"></div>
-                </div>
-                <div class="col-12 fields_check">
-                    <label for="description" class="form-label">description</label>
-                    <textarea class="form-control" aria-label="description" id="description" name="description" maxlength="200"></textarea>
-                    <div class="alert alert-success d-none">Looks good!</div>
-                    <div class="alert alert-danger d-none"></div>
-                </div>
-                <div class="col-12 fields_check">
-                    <label for="price" class="form-label">price</label>
-                    <input type="number" class="form-control" id="price" name="price" min="0">
-                    <div class="alert alert-success d-none">Looks good!</div>
-                    <div class="alert alert-danger d-none"></div>
-                </div>
-                <div class="col-12">
-                    <label for="phone_number" class="form-label">phone number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number">
-                    <div class="alert alert-success d-none">Looks good!</div>
-                    <div class="alert alert-danger d-none"></div>
-                </div>
-                <div class="col-12 fields_check">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend">
-                    <div class="alert alert-success d-none">Looks good!</div>
-                    <div class="alert alert-danger d-none"></div>
-                </div>
-                <div class="col-12 text-center">
-                    <button class="btn btn-primary" type="submit">submit</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="col-4 d-none d-md-block"></div>
+<div class="row">
+    <div class="col-4 d-none d-md-block"></div>
+    <div class="col-12 col-lg-4">
+        <h2 class="text-center"><%= title %></h2>
+        <form class="row g-3 form_action" method="post" action="/action/add">
+            <div class="col-12 fields_check">
+                <label for="title" class="form-label">title</label>
+                <input type="text" class="form-control" id="title" name="title" maxlength="20">
+                <div class="alert alert-success d-none">Looks good!</div>
+                <div class="alert alert-danger d-none"></div>
+            </div>
+            <div class="col-12">
+                <label for="description" class="form-label">description</label>
+                <textarea class="form-control" aria-label="description" id="description" name="description" maxlength="200"></textarea>
+                <div class="alert alert-success d-none">Looks good!</div>
+                <div class="alert alert-danger d-none"></div>
+            </div>
+            <div class="col-12 fields_check">
+                <label for="price" class="form-label">price</label>
+                <input type="number" class="form-control" id="price" name="price" min="0">
+                <div class="alert alert-success d-none">Looks good!</div>
+                <div class="alert alert-danger d-none"></div>
+            </div>
+            <div class="col-12">
+                <label for="phone_number" class="form-label">phone number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number">
+                <div class="alert alert-success d-none">Looks good!</div>
+                <div class="alert alert-danger d-none"></div>
+            </div>
+            <div class="col-12 fields_check">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend">
+                <div class="alert alert-success d-none">Looks good!</div>
+                <div class="alert alert-danger d-none"></div>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-primary" type="submit">submit</button>
+            </div>
+        </form>
     </div>
-    <br>
-    </div>
+    <div class="col-4 d-none d-md-block"></div>
+</div>
+<br>
+</div>
 <script src="/javascripts/postValidate.js"></script>
 <%- include('include/footer.ejs') %>

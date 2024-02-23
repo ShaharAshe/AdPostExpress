@@ -1,8 +1,7 @@
 const utilities = (function() {
-    const field_name = ['Title', 'Description', 'Price', 'Phone Number', 'Email']
+    const field_name = ['Title', 'Price', 'Email']
     const email_pattern = /\S+@\S+\..+/;
     const phone_number_pattern = /^[0-9]{2,3}-[0-9]{7}$/;
-
     const form_action_ev = document.querySelector(".form_action");
     const title_ev = document.getElementById("title");
     const description_ev = document.getElementById("description");
@@ -32,16 +31,14 @@ const utilities = (function() {
 // ===================================================================
 
 const funcs = (function (){
-    return {
+    const add_error_scope = (pattern, val_ev, alert_num, msg) => {
+        if(!pattern.test(val_ev.value.trim()))
+        {
+            utilities.bad_alert[alert_num].innerHTML += `<li>${msg}</li>`;
+        }
     }
-})();
 
-// ======================================================================
-
-const main = (function () {
-    const click_submit = (event)=> {
-        let is_valid = true;
-        let name_of_field = 0;
+    const hide_alert = () => {
         utilities.good_alert.forEach(good => {
             good.classList.add('d-none')
             good.innerHTML = ``
@@ -50,33 +47,39 @@ const main = (function () {
             bad.classList.add('d-none')
             bad.innerHTML = ``
         })
-
-        utilities.form_fields_ev.forEach(field => {
-            if(field.children[1].value.trim() === '') {
-                field.lastElementChild.innerHTML += `<li>The ${utilities.field_name[name_of_field]} must not be empty</li>`
-            }
-            ++name_of_field;
-        })
-
-        if(!utilities.phone_number_pattern.test(utilities.phone_number_ev.value.trim()))
-        {
-            utilities.bad_alert[3].innerHTML += `<li>phone number in format XXX-XXXXXXX (for example 02-1231212 or 055-1231212)</li>`;
-        }
-        if(!utilities.email_pattern.test(utilities.email_ev.value.trim()))
-        {
-            utilities.bad_alert[4].innerHTML += (utilities.bad_alert[4].innerHTML === ``)?`<li>email need to be 2 parts and a “@” character in between</li>`:`<li>email need to be 2 parts and a “@” character in between</li>`;
-        }
-
-        utilities.bad_alert.forEach(bad => {
-            if (bad.innerHTML !== ``) {
-                bad.classList.remove('d-none')
-                is_valid = false;
-            }
-        })
-
-        if (is_valid)
-            event.target.submit();
     }
+
+    return {
+        click_submit: (event)=> {
+            let is_valid = true;
+            let name_of_field = 0;
+            hide_alert();
+            utilities.form_fields_ev.forEach(field => {
+                if(field.children[1].value.trim() === '') {
+                    field.lastElementChild.innerHTML += `<li>The ${utilities.field_name[name_of_field]} must not be empty</li>`
+                }
+                ++name_of_field;
+            })
+            if(utilities.phone_number_ev.value.trim().length > 0)
+                add_error_scope(utilities.phone_number_pattern, utilities.phone_number_ev, 3, `phone number in format XXX-XXXXXXX (for example 02-1231212 or 055-1231212)`)
+
+            add_error_scope(utilities.email_pattern, utilities.email_ev, 4, `email need to be 2 parts and a “@” character in between`)
+            utilities.bad_alert.forEach(bad => {
+                if (bad.innerHTML !== ``) {
+                    bad.classList.remove('d-none')
+                    is_valid = false;
+                }
+            })
+
+            if (is_valid)
+                event.target.submit();
+        }
+    }
+})();
+
+// ======================================================================
+
+const main = (function () {
     return {
         main_func: function () {
             fetch(`/api/allData`)
@@ -96,7 +99,7 @@ const main = (function () {
                 });
             utilities.form_action_ev.addEventListener("submit", function (event) {
                 event.preventDefault();
-                click_submit(event)
+                funcs.click_submit(event)
             })
         },
     }

@@ -11,35 +11,26 @@ const utilities = (function() {
 
 const funcs = (function (){
     return {
-    }
-})();
-
-// ======================================================================
-
-const main = (function () {
-    const build_page = ()=> {
-        console.log('Build page function called');
-        fetch(`/api/posts`)
-            .then((status) => {
-                if (status.status >= 200 && status.status < 300) {
-                    return Promise.resolve(status)
-                } else {
+        build_page: ()=> {
+            console.log('Build page function called');
+            fetch(`/api/posts`)
+                .then((status) => {
+                    if (status.status >= 200 && status.status < 300)
+                        return Promise.resolve(status)
                     return Promise.reject(new Error(status.statusText))
-                }
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json)
-                utilities.posts_place.innerHTML = ``
-                if (json.length === 0) {
-                    utilities.posts_place.innerHTML =
-                        `<div class="col-12 text-center">
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json)
+                    utilities.posts_place.innerHTML = ``
+                    if (json.length === 0) {
+                        utilities.posts_place.innerHTML =
+                            `<div class="col-12 text-center">
                             <h2>There are no posts yet &#129488;</h2>
                         </div>`
-                } else {
-                    json.forEach(post => {
-                        utilities.posts_place.innerHTML +=
-                            `<div class="col-12 col-sm-6 col-lg-4 text-center">
+                    } else {
+                        json.forEach(post => {
+                            let str = `<div class="col-12 col-sm-6 col-lg-4 text-center">
                             <div class="card">
                                 <p class="card-text">${post["title"]}</p>
                                 <img src="/images/post_icon.png" class="card-img-top img-fluid d-none d-sm-block" alt="mars image">
@@ -51,28 +42,30 @@ const main = (function () {
                                         <form class="row g-3" method="post" action="/">
                                     </div>
                                 </div>
-                            </div>`
-                    })
-                }
-                utilities.spinner.classList.add("d-none");
-            })
-            .catch((error) => {
-                utilities.posts_place.innerHTML =
-                `<div class="col-12 text-center">
+                            </div>`;
+                            utilities.posts_place.insertAdjacentHTML('afterbegin', str);
+                        })
+                    }
+                    utilities.spinner.classList.add("d-none");
+                })
+                .catch((error) => {
+                    utilities.posts_place.innerHTML =
+                        `<div class="col-12 text-center">
                             <h2>ERROR loading data from server</h2>
                         </div>`
-                console.log(error);
-            });
+                    console.log(error);
+                });
+        }
     }
+})();
 
+// ======================================================================
+
+const main = (function () {
     return{
         main_func: function () {
-            // Initial call to build_page
-            build_page();
-
-            // Set up interval to call build_page every 5 seconds
-            setInterval(build_page, 5000);
-            }
+            funcs.build_page();
+        }
     }
 })()
 

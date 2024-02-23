@@ -39,5 +39,4 @@ router.get('/add', (req, res) => {
     res.redirect('/'); // redirect to the home page
 });
 
-
 module.exports = router;

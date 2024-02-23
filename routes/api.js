@@ -93,9 +93,4 @@ router.delete('/allData', (req, res, next) => {
         next(createError(401))
 });
 
-app.use(function(req, res, next) {
-    next(createError(404));
-});
-
-
 module.exports = router;

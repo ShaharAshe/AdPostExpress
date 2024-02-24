@@ -1,9 +1,20 @@
 'use strict';
 
+/**
+ * Module dependencies.
+ */
 const { DataTypes, Model } = require('sequelize');
 
+/**
+ * Define the Post model.
+ * @param {object} sequelize - The Sequelize instance.
+ */
 module.exports = (sequelize) => {
   class Post extends Model {}
+
+  /**
+   * Initialize the Post model.
+   */
   Post.init({
     title: {
       type: DataTypes.STRING,
@@ -24,7 +35,6 @@ module.exports = (sequelize) => {
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         min: 0,
-
         isNumeric: true,
       }
     },
@@ -33,13 +43,15 @@ module.exports = (sequelize) => {
       allowNull: true, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         is: /^[0-9]{2,3}-[0-9]{7}$|^$/,
-      }},
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false, // constraint level validation (SQL level validation)
       validate: { // sequelize level validation
         isEmail: true,
-      }},
+      }
+    },
     approve:{
       type: DataTypes.STRING,
       defaultValue: 'no',
@@ -54,9 +66,10 @@ module.exports = (sequelize) => {
     modelName: 'Post',
     hooks: {
       beforeFind: (option) => {
+        // Hook logic can be added here
       }
     }
-
   });
+
   return Post;
 };

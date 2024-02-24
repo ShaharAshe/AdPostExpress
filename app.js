@@ -1,11 +1,14 @@
+/**
+ * Module dependencies.
+ */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-// const bcrypt = require('bcrypt');
 
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api');
 var formRoute = require('./routes/formHandle');
@@ -14,19 +17,21 @@ var adminRoute = require('./routes/admin');
 var newPostRoute = require('./routes/newPost');
 var logoutRoute = require('./routes/logoutHandle');
 
+// Create an Express application
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware setup
+app.use(logger('dev')); // Logging middleware
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: false })); // Parse URL-encoded bodies
+app.use(cookieParser()); // Parse Cookie header and populate req.cookies
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
-// enable sessions
+// Enable sessions
 app.use(session({
     secret:"somesecretkey",
     resave: false, // Force save of session for each request
@@ -34,20 +39,22 @@ app.use(session({
     cookie: {maxAge: 10*60*1000 } // milliseconds!
 }));
 
-app.use('/', indexRouter);
-app.use('/action', formRoute);
-app.use('/api', usersRouter);
-app.use('/login', loginRoute);
-app.use('/newPost', newPostRoute);
-app.use('/admin', adminRoute);
-app.use('/logout', logoutRoute);
+// Define routes
+app.use('/', indexRouter); // Index route
+app.use('/action', formRoute); // Route for handling form actions
+app.use('/api', usersRouter); // API route
+app.use('/login', loginRoute); // Route for login
+app.use('/newPost', newPostRoute); // Route for creating new posts
+app.use('/admin', adminRoute); // Admin route
+app.use('/logout', logoutRoute); // Route for logout
 
+// Database setup
 const db = require('./models/index');
-// create the tables if don't exist
-
+// Sync the database models with the actual database
 db.sequelize.sync()
     .then(() => {
         console.log('Database Synced');
+        // Create default admin users if they don't exist
         return Promise.all([
             db.User.findOrCreate({
                 where: {login: 'admin'},
@@ -65,20 +72,19 @@ db.sequelize.sync()
     console.log(err);
 });
 
-
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.title = "error page"
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });

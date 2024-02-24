@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 const formController = require('../controllers/formControle');
-const indexController = require('../controllers/indexConstrole');
+const indexController = require('../controllers/indexController');
 
 router.get('/', indexController.indexPageHandle);
 router.post('/add', formController.formPostAddHandle);

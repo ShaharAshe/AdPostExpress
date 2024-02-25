@@ -3,12 +3,14 @@ const utilities = (function() {
     const delete_toastLive = document.getElementById('delLiveToast');
     const approve_toastLive = document.getElementById('approveLiveToast');
     const unApproved_toastLive = document.getElementById('unApprovedLiveToast');
+    const problem_toastLive = document.getElementById('probLLiveToast');
     const spinner = document.querySelector("div.spinner-border");
     return {
         posts_place:posts_place,
         delete_toastLive: delete_toastLive,
         approve_toastLive: approve_toastLive,
         unApproved_toastLive: unApproved_toastLive,
+        problem_toastLive: problem_toastLive,
         spinner: spinner,
     };
 })()
@@ -62,8 +64,6 @@ const funcs = (function (){
                 });
         },
         approve_change: (event, val, toast_ev) => {
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev)
-            toastBootstrap.show()
             fetch(`/api/allData`, {
                 method: 'PUT',
                 headers: {
@@ -75,6 +75,13 @@ const funcs = (function (){
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json(); // You can change this based on the response format
             }).then(data => {
+                if(Object.keys(data).length) {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev);
+                    toastBootstrap.show();
+                } else {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.problem_toastLive);
+                    toastBootstrap.show();
+                }
                 funcs.build_page();
                 console.log('Success:', data);
             })

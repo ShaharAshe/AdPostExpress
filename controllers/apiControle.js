@@ -67,7 +67,7 @@ exports.apiDeleteAllDataHandle = (req, res, next) => {
             where: {
                 id: req.body.postId,
             }
-        }).then(() => res.json([]))
+        }).then((data) => res.json(data))
         .catch(error_handle)
     } else
         next(createError(401))

@@ -13,7 +13,6 @@ This repository contains the source code for a web application designed for a se
 ---
 2. - 💁 Name: Yaniv Gabay
    - 📫 Email: [yanivga@edu.hac.ac.il](mailto:yanivga@edu.hac.ac.il)
-
 ---
 
 ## Table of Contents

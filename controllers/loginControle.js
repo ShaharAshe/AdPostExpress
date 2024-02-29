@@ -37,7 +37,7 @@ exports.loginPageHandle = (req, res, next) => {
 exports.loginPostHandle = (req, res, next) => {
     const {login, password} = req.body;
     db.User.findOne({
-        where: {login: login, password: password},
+        where: {login: login.trim(), password: password},
     }).then(user => {
         if (user) {
             req.session.login = true;
@@ -45,5 +45,5 @@ exports.loginPostHandle = (req, res, next) => {
         }
         req.session.login = false;
         res.render('login', {title: 'Login', message: 'Admin not found', err: true});
-    }).catch(error_handle)
+    }).catch((err) => {error_handle(res, err)})
 }

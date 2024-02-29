@@ -32,7 +32,7 @@ exports.apiGetAllDataHandle = (req, res, next) => {
     if (req.session.login) {
         db.Post.findAll().then(data => {
             res.json(data);
-        }).catch(error_handle)
+        }).catch((err) => {error_handle(res, err)})
     } else
         next(createError(401))
 };
@@ -50,7 +50,7 @@ exports.apiPutAllDataHandle = (req, res, next) => {
                 id: req.body.postId,
             }
         }).then((data) => res.json(data))
-            .catch(error_handle)
+            .catch((err) => {error_handle(res, err)})
     } else
         next(createError(401))
 }
@@ -68,7 +68,7 @@ exports.apiDeleteAllDataHandle = (req, res, next) => {
                 id: req.body.postId,
             }
         }).then((data) => res.json(data))
-        .catch(error_handle)
+            .catch((err) => {error_handle(res, err)})
     } else
         next(createError(401))
 }
@@ -86,5 +86,5 @@ exports.apiGetPostsHandle = (req, res, next) => {
         }
     }).then(data => {
         res.json(data);
-    }).catch(error_handle)
+    }).catch((err) => {error_handle(res, err)})
 }

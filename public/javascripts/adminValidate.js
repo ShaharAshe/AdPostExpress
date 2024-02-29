@@ -17,7 +17,6 @@ const utilities = (function() {
 const funcs = (function (){
     return {
         build_page: ()=> {
-            console.log('Build page function called');
             utilities.posts_place.innerHTML = ''
             fetch(`/api/allData`)
                 .then((status) => {
@@ -29,7 +28,6 @@ const funcs = (function (){
                 })
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(json)
                     if (json.length === 0) {
                         utilities.posts_place.innerHTML =
                             `<div class="col-12 text-center">
@@ -75,7 +73,6 @@ const funcs = (function (){
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json(); // You can change this based on the response format
             }).then(data => {
-                console.log(data['0'])
                 if(data["0"] === 0) {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.problem_toastLive);
                     toastBootstrap.show();

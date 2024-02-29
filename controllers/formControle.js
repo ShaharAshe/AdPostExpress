@@ -4,6 +4,7 @@
 const Cookies = require("cookies");
 const db = require("../models");
 const Sequelize = require("sequelize");
+const e = require("express");
 
 /**
  * Handles errors and renders appropriate responses.
@@ -41,5 +42,5 @@ exports.formPostAddHandle = (req, res, next) => {
 
             res.render('successfulPost', {title: 'Successful post', message: "The contact was added successfully!"})
         })
-        .catch(error_handle)
+        .catch((err) => {error_handle(res, err)})
 };

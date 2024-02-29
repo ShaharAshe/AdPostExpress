@@ -75,11 +75,12 @@ const funcs = (function (){
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json(); // You can change this based on the response format
             }).then(data => {
-                if(Object.keys(data).length) {
-                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev);
+                console.log(data['0'])
+                if(data["0"] === 0) {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.problem_toastLive);
                     toastBootstrap.show();
                 } else {
-                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(utilities.problem_toastLive);
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast_ev);
                     toastBootstrap.show();
                 }
                 funcs.build_page();
@@ -88,7 +89,7 @@ const funcs = (function (){
             .catch(error => {
                 console.error('Error:', error);
             });
-        }
+        },
     }
 })();
 const main = (function () {
